@@ -5,6 +5,7 @@ const loadPhone = async (searchText, isShowAll) => {
     const phones = data.data;
     displayPhones(phones, isShowAll);
 }
+
 const displayPhones = (phones, isShowAll) => {
     //console.log(phones)
     const cardContainer = document.getElementById('card-container')
@@ -32,8 +33,8 @@ const displayPhones = (phones, isShowAll) => {
                 <div class="card-body">
                   <h2 class="card-title flex mx-auto">${phone.phone_name}</h2>
                   <p>If a dog chews shoes whose shoes does he choose?</p>
-                  <div class="card-actions justify-end">
-                    <button class="btn btn-primary flex mx-auto">Show Details</button>
+                  <div class="card-actions justify-center">
+                    <button onclick="showDetails('${phone.slug}')" class="btn btn-primary ">Show Details</button>
                   </div>
                 </div>  
         `;
@@ -41,6 +42,15 @@ const displayPhones = (phones, isShowAll) => {
     });
     loadingShow(false);
 }
+
+const showDetails = async (id) =>{
+    console.log('show', id)
+    //load single phone data
+    const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
+    const data = await res.json()
+    console.log(data);
+}
+
 const handelSearch = (isShowAll) =>{
     const searchField = document.getElementById('search-field');
     const searchText = searchField.value;
