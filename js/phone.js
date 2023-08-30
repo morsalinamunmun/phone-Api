@@ -24,7 +24,7 @@ const displayPhones = (phones, isShowAll) => {
         phones = phones.slice(0, 12);
     }
     phones.forEach(phone => {
-        console.log(phone)
+        //console.log(phone)
         const cardDiv = document.createElement('div');
         cardDiv.classList.add('card', 'bg-gray-100', 'shadow-xl', 'p-5', 'text-center');
         //cardDiv.classList = `card w-96 bg-gray-100 shadow-xl`;
@@ -44,11 +44,31 @@ const displayPhones = (phones, isShowAll) => {
 }
 
 const showDetails = async (id) =>{
-    console.log('show', id)
+    //console.log('show', id)
     //load single phone data
     const res = await fetch(`https://openapi.programming-hero.com/api/phone/${id}`);
     const data = await res.json()
-    console.log(data);
+    const phone = data.data;
+    showPhoneDetails(phone);
+}
+const showPhoneDetails = (phone) =>{
+    console.log(phone);
+    const phoneName = document.getElementById('show-detail-phone-name');
+    phoneName.innerText = phone.name;
+    const showDetailContainer = document.getElementById('show-detail-container');
+    showDetailContainer.innerHTML = `
+    <img src="${phone.image}" alt=""/>
+    <p><span class="font-bold">Storage:</span> ${phone?.mainFeatures?.storage}</p>
+    <p><span class="font-bold">Display Size:</span> ${phone?.mainFeatures?.displaySize}</p>
+    <p><span class="font-bold">ChipSet:</span> ${phone?.mainFeatures?.chipSet}</p>
+    <p><span class="font-bold">Memory:</span> ${phone?.mainFeatures?.memory}</p>
+    <p><span class="font-bold">Slug:</span> ${phone?.slug}</p>
+    <p><span class="font-bold">Release Date:</span> ${phone?.releaseDate}</p>
+    <p><span class="font-bold">Brand:</span> ${phone?.brand}</p>
+    <p><span class="font-bold">GPS:</span> ${phone?.others?.GPS || 'No GPS'}</p>
+    `
+    //showDetailContainer.appendChild(showDetailContainer);
+    show_details_modal.showModal()
 }
 
 const handelSearch = (isShowAll) =>{
